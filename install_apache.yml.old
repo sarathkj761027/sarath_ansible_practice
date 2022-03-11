@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Install httpd package
+    yum:
+      name: httpd
+      name: php
+    when ansible_distribution == "Red Hat Enterprise Linux"
+  - name: Start httpd package
+    service:
+      name: httpd
+      state: started
+    when ansible_distribution == "Red Hat Enterprise Linux"

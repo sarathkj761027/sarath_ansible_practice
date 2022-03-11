@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Install httpd package
+    package:
+      name: "{{ apache_package }}"
+      name: "{{ php_package }}"
+  - name: Start httpd package
+    service:
+      name: "{{ apache_package }}"
+      state: started

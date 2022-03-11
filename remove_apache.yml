@@ -1,0 +1,26 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Stop httpd package
+    service:
+      name: httpd
+      state: stopped
+      when: ansible_distribution == "Red Hat Enterprise Linux"
+  - name: Remove httpd package
+    yum:
+      name: httpd
+      state: absent
+      when: ansible_distribution == "Red Hat Enterprise Linux"
+  - name: Stop httpd package
+    service:
+      name: httpd
+      state: stopped
+      when: ansible_distribution == "CentOS"
+  - name: Remove httpd package
+    yum:
+      name: httpd
+      state: absent
+      when: ansible_distribution == "CentOS"

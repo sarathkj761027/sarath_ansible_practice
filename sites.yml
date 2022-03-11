@@ -1,0 +1,63 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install on centos
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: install on Ubuntu
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: webservers
+  become: true
+  tasks:
+
+  - name: Install httpd package
+    package:
+      name: "{{ apache_package }}"
+      name: "{{ php_package }}"
+  - name: Start httpd package
+    service:
+      name: "{{ apache_package }}"
+      state: started
+
+  - name: Copy files
+    tags: apache,apache2,httpd
+    copy:
+      src: default.html
+      dest: /var/www/html/default.html
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: dbservers
+  become: true
+  tasks:
+
+  - name: Install mariadb package
+    dnf:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "CentOS"
+  - name: Install mariadb package
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+
+- hosts: webservers
+  become: true
+  tasks:
+  - name: Install samba package
+    package:
+      name: samba
+      state: latest

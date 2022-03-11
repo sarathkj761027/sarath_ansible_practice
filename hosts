@@ -1,0 +1,7 @@
+10.182.0.3 apache_package=httpd php_package=php
+[webservers]
+10.182.0.4 apache_package=httpd php_package=php
+10.182.0.5 apache_package=apache2 php_package=libapache2-mod-php
+[dbservers]
+10.182.0.4 apache_package=httpd php_package=php
+10.182.0.5 apache_package=apache2 php_package=libapache2-mod-php
